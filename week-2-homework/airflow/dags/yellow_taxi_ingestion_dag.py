@@ -19,8 +19,10 @@ BIGQUERY_DATASET_NAME = os.environ.get("BIGQUERY_DATASET_NAME", 'trips_data_all'
 
 with DAG(
     dag_id='yellow_taxi_ingestion_dax',
-    start_date= datetime(2021, 1, 1),
-    # end_date=datetime(2021, 1, 3),
+    start_date= datetime(2019, 1, 1),
+    end_date=datetime(2020, 12, 3),
+    concurrency=3, 
+    max_active_runs=2,
     schedule_interval='0 4 2 * *',
     default_args= {'retries':1}
     ) as airflow_dag:

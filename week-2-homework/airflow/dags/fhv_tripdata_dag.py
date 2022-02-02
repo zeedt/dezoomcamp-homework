@@ -8,19 +8,19 @@ from airflow.providers.google.cloud.transfers.local_to_gcs import LocalFilesyste
 
 import yellow_taxi_ingestion
 
-DOWNLOAD_BASE_URL = 'https://nyc-tlc.s3.amazonaws.com/trip+data/fhvhv_tripdata_{{execution_date.strftime(\'%Y-%m\')}}.csv'
-CSV_OUTPUT_FILE_TEMPLATE = "fhvhv_tripdata_{{execution_date.strftime(\'%Y-%m\')}}.csv"
-TABLE_NAME_TEMPLATE = "fhvhv_tripdata_{{execution_date.strftime(\'%Y-%m\')}}"
-PARQUET_OUTPUT_FILE_TEMPLATE = "fhvhv_tripdata_{{execution_date.strftime(\'%Y-%m\')}}.parquet"
+DOWNLOAD_BASE_URL = 'https://nyc-tlc.s3.amazonaws.com/trip+data/fhv_tripdata_{{execution_date.strftime(\'%Y-%m\')}}.csv'
+CSV_OUTPUT_FILE_TEMPLATE = "fhv_tripdata_{{execution_date.strftime(\'%Y-%m\')}}.csv"
+TABLE_NAME_TEMPLATE = "fhv_tripdata_{{execution_date.strftime(\'%Y-%m\')}}"
+PARQUET_OUTPUT_FILE_TEMPLATE = "fhv_tripdata_{{execution_date.strftime(\'%Y-%m\')}}.parquet"
 AIRFLOW_HOME = os.environ.get("AIRFLOW_HOME", "/opt/airflow/")
 GCP_GCS_BUCKET = os.environ.get("GCP_GCS_BUCKET", "dtc_data_lake_airflow_test")
 GCP_PROJECT_ID = os.environ.get("GCP_PROJECT_ID", "dtc-de")
 BIGQUERY_DATASET_NAME = os.environ.get("BIGQUERY_DATASET_NAME", 'trips_data_all')
 
 with DAG(
-    dag_id='fhv_ingestion_dax',
-    start_date= datetime(2021, 1, 1),
-    end_date=datetime(2021, 1, 3),
+    dag_id='fhv_ingestion_dag',
+    start_date= datetime(2019, 1, 1),
+    end_date=datetime(2020, 1, 3),
     schedule_interval='0 4 2 * *',
     default_args= {'retries':1}
     ) as airflow_dag:
@@ -51,7 +51,7 @@ with DAG(
         python_callable=yellow_taxi_ingestion.upload_to_gcs,
         op_kwargs={
             "bucket": GCP_GCS_BUCKET,
-            "object_name": f'fhvhv_tripdata/{PARQUET_OUTPUT_FILE_TEMPLATE}',
+            "object_name": f'fhv_tripdata/{PARQUET_OUTPUT_FILE_TEMPLATE}',
             "local_file": f'{PARQUET_OUTPUT_FILE_TEMPLATE}',
         },
     )
@@ -66,7 +66,7 @@ with DAG(
         },
         "externalDataConfiguration": {
             "sourceFormat": "PARQUET",
-            "sourceUris": [f"gs://{GCP_GCS_BUCKET}/fhvhv_tripdata/{PARQUET_OUTPUT_FILE_TEMPLATE}"],
+            "sourceUris": [f"gs://{GCP_GCS_BUCKET}/fhv_tripdata/{PARQUET_OUTPUT_FILE_TEMPLATE}"],
         },
     },
 

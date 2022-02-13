@@ -1,0 +1,31 @@
+
+version: 2
+
+sources:
+  - name : staging
+    database : dtc-de
+    schema : trips_data_all
+    tables :
+      - name : external_fhv_trip_data_2019
+      - name : taxi_zone_lookup
+      - name : yellow_trip_data
+      - name : green_trip_data
+
+models:
+  - name: stg_fhv_trip_data_2019
+    description: "FHV trip data"
+    columns:
+      - name: dispatching_base_num
+        description: "The primary key for this table"
+        tests:
+          - unique
+          - not_null
+  - name: stg_zone_lookup 
+    description: "Taxi zone lookup"
+    columns:
+      - name: id
+        description: "The primary key for this table"
+        tests:
+          - unique
+          - not_null
+

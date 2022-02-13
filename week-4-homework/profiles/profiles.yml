@@ -1,0 +1,14 @@
+ny_taxi:
+  outputs:
+    dev:
+      dataset: trips_data_all
+      fixed_retries: 1
+      keyfile: /Users/yusufsaheed/.google/credentials/google_credentials.json
+      location: us-central1
+      method: service-account
+      priority: interactive
+      project: dtc-de
+      threads: 1
+      timeout_seconds: 0
+      type: bigquery
+  target: dev

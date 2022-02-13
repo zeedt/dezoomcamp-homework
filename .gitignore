@@ -5,6 +5,7 @@ week-1-homework/1_terraform_gcp/terraform/**
 **.DS_Store
 .DS_Store
 .idea
+**/target
 *.tfstate
 *.tfstate.*
 **.terraform

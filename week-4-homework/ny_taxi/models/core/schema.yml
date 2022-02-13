@@ -1,0 +1,31 @@
+version: 2
+
+models:
+  - name: fact_fhv_trips
+    description: "This is fact fhv trips data"
+    columns:
+      - name: dispatching_base_num
+        description: "Dispatching base number"
+        tests:
+          - unique
+          - not_null
+      - name: pickup_datetime
+        description: "Pickup date time"
+        tests:
+          - not_null
+      - name: dropoff_datetime
+        description: "Drop off date time"
+        tests:
+          - not_null
+      - name: PULocationId
+        description: "Pickup location Id"
+        tests:
+          - not_null
+      - name: DOLocationID
+        description: "Destination location Id"
+        tests:
+          - not_null
+      - name: SR_Flag
+        description: "SR Flag"
+        tests:
+          - not_null

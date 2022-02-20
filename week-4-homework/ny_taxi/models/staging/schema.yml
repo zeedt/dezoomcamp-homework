@@ -12,7 +12,7 @@ sources:
       - name : green_trip_data
 
 models:
-  - name: stg_fhv_trip_data_2019
+  - name: stg_fhv_tripdata
     description: "FHV trip data"
     columns:
       - name: dispatching_base_num

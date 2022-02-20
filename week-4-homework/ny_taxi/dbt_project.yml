@@ -37,4 +37,4 @@ models:
     example:
       +materialized: view
 vars:
-  is_test_run : True
+  is_test_run : False

@@ -2,9 +2,9 @@
 {{ config(materialized='table') }}
 
 
-with stg_fhv_trip_data_2019 as (
+with fact_fhv_trips as (
 
-    select * from {{ref('stg_fhv_trip_data_2019')}}
+    select * from {{ref('fact_fhv_trips')}}
 
 )
 
@@ -23,5 +23,5 @@ SELECT (case
  when extract(MONTH from pickup_datetime) = 12 then 'DECEMBER' 
  end) as month_val
 ,  count(*) as count 
-    from stg_fhv_trip_data_2019 group by month_val order by count desc
+    from fact_fhv_trips group by month_val order by count desc
 

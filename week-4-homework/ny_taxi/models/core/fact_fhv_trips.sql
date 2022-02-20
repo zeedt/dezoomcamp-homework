@@ -9,17 +9,17 @@
 
 {{ config(materialized='table') }}
 
-with stg_fhv_trip_data_2019 as (
+with stg_fhv_tripdata as (
 
-    select * from {{ref('stg_fhv_trip_data_2019')}}
+    select * from {{ref('stg_fhv_tripdata')}}
 
-), stg_zone_lookup as (
-
-    select * from {{ref('stg_zone_lookup')}}
-
+), 
+dim_zones as (
+    select * from {{ ref('dim_zones') }}
+    where borough != 'Unknown'
 )
 
 Select dispatching_base_num, pickup_datetime, dropoff_datetime,
-    PULocationId, DOLocationID, SR_Flag, t1.Zone as pickup_zone, t2.Zone as drop_off_zone from stg_fhv_trip_data_2019 y
- INNER JOIN stg_zone_lookup t1 on t1.LocationID= y.PULocationID inner join stg_zone_lookup t2 on t2.LocationID=y.DOLocationID
+    PULocationId, DOLocationID, SR_Flag, t1.Zone as pickup_zone, t2.Zone as drop_off_zone from stg_fhv_tripdata y
+ INNER JOIN dim_zones t1 on t1.LocationID= y.PULocationID inner join dim_zones t2 on t2.LocationID=y.DOLocationID
 
